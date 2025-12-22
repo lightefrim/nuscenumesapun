@@ -1,35 +1,45 @@
-from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QMainWindow, QLabel
-from PyQt5.QtWidgets import *
+from PySide6.QtCore import Qt
+from PySide6.QtWidgets import QApplication, QWidget, QLabel, QPushButton, QVBoxLayout
 from instr import *
-from second_win import TestWIn
 
-class MainWindow(self):
+class MainWindow(QWidget):
     def __init__(self):
         super().__init__()
         self.initUI()
         self.connects()
         self.set_appear()
-        self.show()
+
     def initUI(self):
-        self.next_button = QPushButton(btn_txt_start, self)
-        self.welcome_label1 = QLabel(welcome_text1,self)
-        self.welcome_label2 =  QLabel(welcome_tex2, self)
-        self_layoutV = QVBoxLayout()
-        self_layoutV.addWidget(self.welcome_label1, alignment=Qt.AlignLeft)
-        self_layoutV.addWidget(self.welcome_label2 ,alignement=Qt.AlignLeft)
-        self.layoutV.addWidget(self.next_button,alignment=Qt.AlignCenter)
-        self.setLayout(self_layoutV)
-    def next_click(self):
-        self.tw = TestWin()
-        self.hide()
+        self.next_button = QPushButton(btn_text_start, self)
+
+        self.welcome_label1 = QLabel(welcome_text1, self)
+        self.welcome_label1.setWordWrap(True)  # wrap the first label too, just in case
+        self.welcome_label1.setMaximumWidth(700)
+
+        self.welcome_label2 = QLabel(welcome_text2, self)
+        self.welcome_label2.setWordWrap(True)  # wrap long text
+        self.welcome_label2.setMaximumWidth(700)
+
+        self.layoutV = QVBoxLayout()
+        self.layoutV.addWidget(self.welcome_label1)
+        self.layoutV.addWidget(self.welcome_label2)
+        self.layoutV.addWidget(self.next_button, alignment=Qt.AlignCenter)
+
+        self.setLayout(self.layoutV)
+
     def connects(self):
         self.next_button.clicked.connect(self.next_click)
+
+    def next_click(self):
+        self.hide()
+
     def set_appear(self):
-        self.setWindowTitle("Cardiac capacity prorgram")
-        self.resize(win_width, win_height)
+        self.setWindowTitle("Health Status Detection Program")
+        self.resize(900, win_height)
         self.move(500, 10)
         self.show()
 
 app = QApplication([])
-app.exec_()
+window = MainWindow()
+app.exec()
+
